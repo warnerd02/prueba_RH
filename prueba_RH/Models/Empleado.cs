@@ -11,7 +11,7 @@ public partial class Empleado
 
     public string Apellido { get; set; } = null!;
 
-    public DateTime FechaNacimiento { get; set; }
+    public string FechaNacimiento { get; set; } = null!;
 
     public string Sexo { get; set; } = null!;
 

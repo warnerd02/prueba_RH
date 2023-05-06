@@ -48,7 +48,8 @@ public partial class RhContext : DbContext
                 .HasMaxLength(15)
                 .IsUnicode(false);
             entity.Property(e => e.FechaNacimiento)
-                .HasColumnType("date")
+                .HasMaxLength(40)
+                .IsUnicode(false)
                 .HasColumnName("Fecha_Nacimiento");
             entity.Property(e => e.IdDepartamentos).HasColumnName("Id_departamentos");
             entity.Property(e => e.IdPosicion).HasColumnName("Id_Posicion");

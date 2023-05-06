@@ -34,8 +34,7 @@ namespace prueba_RH.Controllers
             }
 
             var empleado = await _context.Empleados
-                .Include(e => e.IdDepartamentos)
-                .Include(e => e.IdPosicion)
+
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (empleado == null)
             {
@@ -57,11 +56,11 @@ namespace prueba_RH.Controllers
         
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(int Id,string Nombre, string Apellido, DateTime FechaNacimiento, string Sexo, int IdDepartamentos,int IdPosicion, Empleado empleado)
+        public async Task<IActionResult> Create(int Id,string Nombre, string Apellido, string FechaNacimiento, string Sexo, int IdDepartamentos,int IdPosicion, Empleado empleado)
         {
             if (ModelState.IsValid)
             {
-                _context.Database.ExecuteSqlRaw($"exec sp_Agregar_Empleado @Nombre='{Nombre}',@Apellido='{Apellido}',@Fecha_Nacimiento={FechaNacimiento},@Sexo='{Sexo}',@Id_departamentos={IdDepartamentos},@Id_Posicion={IdPosicion}");
+                _context.Database.ExecuteSqlRaw($"exec sp_Agregar_Empleado @Nombre='{Nombre}',@Apellido='{Apellido}',@Fecha_Nacimiento='{FechaNacimiento}',@Sexo='{Sexo}',@Id_departamentos={IdDepartamentos},@Id_Posicion={IdPosicion}");
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
@@ -92,7 +91,7 @@ namespace prueba_RH.Controllers
         
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Apellido,FechaNacimiento,Sexo,IdDepartamentos,IdPosicion")] Empleado empleado)
+        public async Task<IActionResult> Edit(int id, int Id, string Nombre, string Apellido, string FechaNacimiento, string Sexo, int IdDepartamentos, int IdPosicion, Empleado empleado)
         {
             if (id != empleado.Id)
             {
@@ -103,7 +102,7 @@ namespace prueba_RH.Controllers
             {
                 try
                 {
-                    _context.Update(empleado);
+                    _context.Database.ExecuteSqlRaw($"exec sp_Update_empleado @Id={id}, @Nombre='{Nombre}',@Apellido='{Apellido}',@Fecha_Nacimiento='{FechaNacimiento}',@Sexo='{Sexo}',@Id_departamentos={IdDepartamentos},@Id_Posicion={IdPosicion}"); ;
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -133,8 +132,7 @@ namespace prueba_RH.Controllers
             }
 
             var empleado = await _context.Empleados
-                .Include(e => e.IdDepartamentos)
-                .Include(e => e.IdPosicion)
+                
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (empleado == null)
             {
@@ -151,12 +149,12 @@ namespace prueba_RH.Controllers
         {
             if (_context.Empleados == null)
             {
-                return Problem("Entity set 'RhContext.Empleados'  is null.");
+                return Problem("Empleados is null.");
             }
             var empleado = await _context.Empleados.FindAsync(id);
             if (empleado != null)
             {
-                _context.Empleados.Remove(empleado);
+                _context.Database.ExecuteSqlRaw($"exec sp_Delete_Empleado @id={id}"); ;
             }
             
             await _context.SaveChangesAsync();

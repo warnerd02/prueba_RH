@@ -34,7 +34,7 @@ namespace prueba_RH.Controllers
             }
 
             var posicione = await _context.Posiciones
-                .Include(p => p.IdDepartamentos)
+                
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (posicione == null)
             {
@@ -143,7 +143,7 @@ namespace prueba_RH.Controllers
         {
             if (_context.Posiciones == null)
             {
-                return Problem("Entity set 'RhContext.Posiciones'  is null.");
+                return Problem("Posiciones is null.");
             }
             var posicione = await _context.Posiciones.FindAsync(id);
             if (posicione != null)
