@@ -1,0 +1,44 @@
+﻿@model prueba_RH.Models.Posicione
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Posicione</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="NPosicion" class="control-label"></label>
+                <input asp-for="NPosicion" class="form-control" />
+                <span asp-validation-for="NPosicion" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdDepartamentos" class="control-label"></label>
+                <select asp-for="IdDepartamentos" class="form-control" asp-items="ViewBag.IdDepartamentos"></select>
+                <span asp-validation-for="IdDepartamentos" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DescripcionPosicion" class="control-label"></label>
+                <input asp-for="DescripcionPosicion" class="form-control" />
+                <span asp-validation-for="DescripcionPosicion" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
